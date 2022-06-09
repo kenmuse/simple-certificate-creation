@@ -1,0 +1,27 @@
+[ req ]
+default_bits        = 2048
+string_mask         = utf8only
+req_extensions = v3_req
+distinguished_name = server_distinguished_name
+prompt = no
+
+[ server_distinguished_name ]
+C = US
+ST = GA
+L = Atlanta
+O = CorpCorp
+CN = server.company.corp
+
+
+[ v3_req ]
+basicConstraints = CA:FALSE
+extendedKeyUsage=serverAuth
+subjectAltName = @alt_names
+# nsServerType = server
+subjectKeyIdentifier = hash
+# authorityKeyIdentifier = keyid,issuer
+keyUsage = critical, digitalSignature, keyEncipherment
+
+[ alt_names ]
+DNS.1 = server.company.corp
+DNS.2 = internal-server.company.corp

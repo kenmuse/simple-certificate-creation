@@ -1,0 +1,57 @@
+[ ca ]
+# `man ca`
+default_ca = CA_default
+
+[ CA_default ]
+# Directory and file locations.
+dir               = .
+certs             = $dir/certs
+crl_dir           = $dir/crl
+new_certs_dir     = $dir/newcerts
+database          = $dir/index.txt
+serial            = $dir/serial
+RANDFILE          = $dir/private/.rand
+
+# The root key and root certificate.
+private_key       = $dir/ca.key.pem
+certificate       = $dir/ca.pem
+
+default_md        = sha256
+
+name_opt          = ca_default
+cert_opt          = ca_default
+default_days      = 1000
+preserve          = no
+
+[ req ]
+# Options for the `req` tool (`man req`).
+default_bits        = 2048
+string_mask         = utf8only
+req_extensions = v3_ca
+distinguished_name = CA_distinguished_name
+prompt = no
+
+
+[ CA_distinguished_name ]
+C = US
+ST = GA
+L = Atlanta
+O = CorpCorp
+CN = company.corp
+
+
+[ v3_ca ]
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid:always,issuer
+basicConstraints = critical, CA:TRUE, pathlen:0
+keyUsage = critical, cRLSign, keyCertSign, digitalSignature
+nsCertType = sslCA, emailCA
+
+[ v3_req ]
+basicConstraints = CA:FALSE
+extendedKeyUsage=serverAuth
+subjectAltNames = @alt_names
+nsServerType = server
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer:always
+keyUsage = critical, digitalSignature, keyEncipherment
